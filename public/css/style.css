@@ -1,0 +1,81 @@
+/* Reset básico para garantir que o estilo seja consistente em todos os navegadores */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif; /* Fonte moderna e fácil de ler */
+    background: url('https://cdn.pixabay.com/photo/2017/07/31/11/21/people-2557396_960_720.jpg') no-repeat center center fixed; /* Imagem de fundo abstrata relacionada a serviços */
+    background-size: cover; /* Garante que a imagem de fundo cubra toda a página */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
+}
+
+#login-register-container {
+    width: 350px;
+    background: rgba(255, 255, 255, 0.8); /* Fundo branco com leve transparência */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Sombra suave para adicionar profundidade */
+}
+
+.tab {
+    overflow: hidden;
+    border-bottom: 2px solid #ccc;
+}
+
+.tab button {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    transition: background-color 0.3s;
+    font-size: 16px;
+    color: #333;
+}
+
+.tab button:hover {
+    background-color: #ddd; /* Efeito hover suave */
+}
+
+.tab button.active {
+    background-color: #f8f8f8; /* Cor de fundo para a aba ativa */
+    border-bottom: 3px solid #009578; /* Cor de destaque para elementos ativos */
+}
+
+.tabcontent {
+    display: none;
+    padding: 20px;
+    border: none;
+}
+
+input[type="email"], input[type="password"], select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #009578; /* Cor vibrante e moderna */
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    opacity: 0.8;
+}
