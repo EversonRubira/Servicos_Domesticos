@@ -9,22 +9,35 @@ const db = require('../config/database');
 // Rota de login
 router.post('/login', async (req, res) => {
     const { email, senha } = req.body;
-    const user = { id: 1, email: "user@example.com", senha: "$2b$10$hash" };
-    try {
-        const match = await bcrypt.compare(senha, user.senha);
-        if (match) {
-            const token = jwt.sign(
-                { userId: user.id, role: "admin" },
-                process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '1h' }
-            );
-            res.json({ accessToken: token });
-        } else {
-            res.status(401).send('Credenciais inválidas');
+
+    // Buscar usuário no banco de dados
+    db.query('SELECT * FROM Users WHERE email = ?', [email], async (err, results) => {
+        if (err) {
+            res.status(500).send('Erro ao buscar usuário no banco de dados');
+            return;
         }
-    } catch (error) {
-        res.status(500).send('Erro interno do servidor');
-    }
+        if (results.length > 0) {
+            const user = results[0]; // assumindo que o email é único e só retorna um resultado
+
+            try {
+                const match = await bcrypt.compare(senha, user.senha);
+                if (match) {
+                    const token = jwt.sign(
+                        { userId: user.id, role: user.tipo },
+                        process.env.ACCESS_TOKEN_SECRET,
+                        { expiresIn: '1h' }
+                    );
+                    res.json({ accessToken: token });
+                } else {
+                    res.status(401).send('Credenciais inválidas');
+                }
+            } catch (error) {
+                res.status(500).send('Erro interno do servidor');
+            }
+        } else {
+            res.status(404).send('Usuário não encontrado');
+        }
+    });
 });
 
 // Adicionar um novo usuário

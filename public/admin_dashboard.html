@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Administrativo</title>
+    <link rel="stylesheet" href="admin_dashboard.html">
+</head>
+<body>
+    <header>
+        <h1>Dashboard Administrativo</h1>
+        <nav>
+            <ul>
+                <li><a href="/logout">Sair</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="service-management">
+        <h2>Gerenciamento de Serviços</h2>
+        <button onclick="document.getElementById('add-service-form').style.display='block'">Adicionar Serviço</button>
+        <div id="add-service-form" style="display:none;">
+            <form action="/add_service" method="post">
+                <label for="service-name">Nome do Serviço:</label>
+                <input type="text" id="service-name" name="service_name" required>
+                <label for="service-description">Descrição:</label>
+                <textarea id="service-description" name="service_description" required></textarea>
+                <button type="submit">Salvar Serviço</button>
+            </form>
+        </div>
+        <ul id="service-list">
+            <!-- Lista de serviços será populada aqui -->
+        </ul>
+    </section>
+    
+    <section class="appointments-overview">
+        <h2>Visão Geral dos Agendamentos</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Serviço</th>
+                    <th>Prestador</th>
+                    <th>Cliente</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Agendamentos serão adicionados aqui -->
+            </tbody>
+        </table>
+    </section>
+    
+    <section class="reports">
+        <h2>Relatórios</h2>
+        <button onclick="generateReport()">Gerar Relatório de Agendamentos</button>
+        <div id="report-output">
+            <!-- Resultados do relatório serão exibidos aqui -->
+        </div>
+    </section>
+    
+    <script src="js/main.js"></script>
+</body>
+</html>
