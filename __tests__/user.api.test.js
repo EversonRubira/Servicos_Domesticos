@@ -1,113 +1,59 @@
-// Arquivo: user.api.test.js
-const request = require("supertest")
+const request = require("supertest");
 const api = require("../src/app.js");
-const dbConnection = require("../src/config/database.js");
-var expect = require("chai").expect
-
-// Arrange
-const newUser = { 
-  nome:"Joao Freitas", 
-  email:"joao@example.com", 
-  senha:"1!2@3#4$5%", 
-  tipo:"cliente"
- };
-
- var user_id = 0;
+const expect = require("chai").expect;
 
 describe("API de usuários", () => {
+  let user_id;  // Variável para armazenar o ID do usuário criado.
+
+  // Criar usuário antes de todos os testes.
+  before(async () => {
+    const newUser = {
+      nome: "Everson Rubira",
+      email: "everson@example.com",
+      senha: "1!2@3#4$5%",
+      tipo: "cliente"
+    };
+    const response = await request(api)
+      .post("/user")
+      .set('Content-Type', 'application/json')
+      .send(newUser);
+
+    expect(response.status).to.equal(201);
+    user_id = response.body.userId;  // Salva o ID do usuário criado para uso nos testes subsequentes.
+  });
+
+  // Teste para verificar se o usuário foi criado corretamente.
   it("Deve criar um novo usuário corretamente", async () => {
-    // Act
-    const response = await request(api)
-            .post("/user")
-            .set('Content-Type', 'application/json')
-            .send(newUser);
-    // Assert
-    expect(201).to.equal(response.status);
-    expect(0).to.not.equal(response.body.userId);  
-    user_id = response.body.userId;
+    expect(user_id).to.not.equal(0);  // Verifica se um ID de usuário foi recebido.
   });
-});
 
-
-
-describe("API de usuários", () => {
-  it("Deve recuparar usuário pelo email", async () => {
-    var emailBusca = 'joao@example.com'
-    
-    // Act
+  // Teste para recuperar usuário pelo email.
+  it("Deve recuperar usuário pelo email", async () => {
+    const emailBusca = 'everson@example.com';
     const response = await request(api)
-            .get("/user/" + emailBusca)
-            //.set('Content-Type', 'application/json')
-            .send();
-    // Assert
+      .get("/user/" + emailBusca)
+      .send();
     expect(response.status).to.equal(200);
-    expect(response.body.user.nome).to.equal(newUser.nome);
-    expect(response.body.user.email).to.equal(emailBusca);    
-    expect(response.body.user.tipo).to.equal(newUser.tipo);
+    expect(response.body.user.nome).to.equal("Everson Rubira");
+    expect(response.body.user.email).to.equal(emailBusca);
+    expect(response.body.user.tipo).to.equal("cliente");
   });
-});
 
-
-describe("API de usuários", () => {
-  it("Deve recuparar todos usuário", async () => {
-    // Act
+  // Teste para recuperar todos os usuários.
+  it("Deve recuperar todos usuário", async () => {
     const response = await request(api)
-            .get("/user")
-            //.set('Content-Type', 'application/json')
-            .send();
-    // Assert
+      .get("/user")
+      .send();
     expect(response.status).to.equal(200);
     expect(response.body.users.length).to.be.above(0);
   });
-});
-/*
-describe("API de usuários", () => {
-  it("Deve autenticar usuário com sucesso", async () => {
-    // Act
-    const response = await request(api)
-            .post("/user/auth")
-            .set('Content-Type', 'application/json')
-            .send(newUser);
-    // Assert
-    expect(response.status).to.equal(200);
-    expect(response.body.auth).to.equal(true);
-  });
-});
 
-describe("API de usuários", () => {
-  it("Deve alterar usuário corretamente", async () => {
-
-    // Arrange
-    const alterUser = { 
-      name:"Joao Freitas Alteracao", 
-      email:"alteracao@example.com", 
-      senha:"222222222", 
-      tipo:"ADMIN"
-    };
-    // Act
-    const response = await request(api)
-            .put("/user/" + user_id)
-            .set('Content-Type', 'application/json')
-            .send(alterUser);
-  
-    // Assert
-    expect(response.status).to.equal(200);
-    expect(response.body.user.name).to.equal(alterUser.name);
-    expect(response.body.user.email).to.equal(alterUser.email);
-    expect(response.body.user.tipo).to.equal(alterUser.tipo);
-  });
-});
-*/
-
-describe("API de usuários", () => {
+  // Teste para remover usuário corretamente.
   it("Deve remover usuário corretamente", async () => {
-    // Act
     const response = await request(api)
-            .del("/user/" + user_id)
-            .send();
-    // Assert
-    expect(200).to.equal(response.status);
-    expect(user_id).to.equal(parseInt(response.body.userId));
+      .del("/user/" + user_id)
+      .send();
+    expect(response.status).to.equal(200);
+    expect(parseInt(response.body.userId)).to.equal(user_id);
   });
 });
-

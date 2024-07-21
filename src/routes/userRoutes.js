@@ -8,6 +8,7 @@ const db = require('../config/database');
 
 // Rota de login
 router.post('/login', async (req, res) => {
+    console.log("Recebendo dados para novo usuário:", req.body);
     const { email, senha } = req.body;
     const user = { id: 1, email: "user@example.com", senha: "$2b$10$hash" };
     try {
@@ -43,8 +44,10 @@ router.post('/user', [
     const query = 'INSERT INTO users (nome, email, senha, tipo) VALUES (?, ?, ?, ?)';
     db.query(query, [nome, email, hashedPassword, tipo], (err, result) => {
         if (err) {
+            console.error("Erro ao adicionar usuário:", err);
             return res.status(500).send({ message: "Erro ao adicionar usuário", error: err });
         }
+        console.log("Usuário criado com sucesso, ID:", result.insertId);
         return res.status(201).send({ message: "Usuário adicionado com sucesso", userId: result.insertId });
     });
 });
@@ -77,7 +80,7 @@ router.get('/user', (req, res) => {
 
 router.delete('/user/:id', 
     async (req, res) => {
-    const query = "DELETE FROM projetofinalpw.users WHERE id = ?";
+    const query = "DELETE FROM servicos_domesticos.users WHERE id = ?";
     db.query(query, [req.params.id], function (err, result) {
       if (err) {
         return res.status(400).json({"message": "error", "error": err });

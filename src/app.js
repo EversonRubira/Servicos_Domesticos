@@ -3,8 +3,11 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
+
 // Importa rotas
 const router = require('./routes/userRoutes');
+
+
 
 // Conexão com o banco de dados
 const db = require('./config/database');
