@@ -1,5 +1,5 @@
 const request = require("supertest");
-const api = require("../src/app");  // Ajuste o caminho se necessário
+const api = require("../src/app.js");  // Certifique-se de que o caminho está correto
 const expect = require("chai").expect;
 
 describe("API de serviços", () => {
@@ -7,23 +7,23 @@ describe("API de serviços", () => {
 
     before(async () => {
         const response = await request(api)
-            .post("/service")
+            .post("/services/service")  // Certifique-se que essa rota está correta no servidor
             .send({
                 nome: "Limpeza de Casa",
                 descricao: "Serviço completo de limpeza",
                 preco: "120.00"
             });
         expect(response.status).to.equal(201);
-        serviceId = response.body.serviceId;
+        serviceId = response.body.serviceId;  // Atribua o ID corretamente para uso nos outros testes
     });
 
     after(async () => {
-        await request(api).delete(`/service/${serviceId}`);
+        await request(api).delete(`/services/service/${serviceId}`);  // Corrigido para usar a sintaxe correta
     });
 
     it("Deve criar um serviço corretamente", async () => {
         const response = await request(api)
-            .post("/service")
+            .post("/services/service")
             .send({
                 nome: "Jardinagem",
                 descricao: "Manutenção de jardins e áreas verdes",
@@ -32,12 +32,12 @@ describe("API de serviços", () => {
         expect(response.status).to.equal(201);
         expect(response.body).to.have.property("serviceId");
         // Limpeza após teste
-        await request(api).delete(`/service/${response.body.serviceId}`);
+        await request(api).delete(`/services/service/${response.body.serviceId}`);
     });
 
     it("Deve atualizar um serviço existente", async () => {
         const response = await request(api)
-            .put(`/service/${serviceId}`)
+            .put(`/services/service/${serviceId}`)  // Corrigido para usar a sintaxe correta
             .send({
                 nome: "Limpeza de Escritório",
                 descricao: "Limpeza profissional de escritórios",
@@ -49,23 +49,23 @@ describe("API de serviços", () => {
 
     it("Deve listar todos os serviços", async () => {
         const response = await request(api)
-            .get("/services");
+            .get("/services/services");
         expect(response.status).to.equal(200);
         expect(response.body).to.be.an('array');
     });
 
     it("Deve recuperar um serviço pelo ID", async () => {
         const response = await request(api)
-            .get(`/service/${serviceId}`);
+            .get(`/services/service/${serviceId}`); 
         expect(response.status).to.equal(200);
-        expect(response.body.nome).to.equal("Limpeza de Casa");
-        expect(response.body.preco).to.equal("120.00");
+        expect(response.body.nome).to.equal("Limpeza de Escritório");
+        expect(response.body.preco).to.equal(199.99);
     });
 
     it("Deve deletar um serviço", async () => {
         // Crie um serviço para deletar
         const createResponse = await request(api)
-            .post("/service")
+            .post("/services/service")
             .send({
                 nome: "Serviço Temporário",
                 descricao: "Este serviço será deletado",
@@ -76,7 +76,7 @@ describe("API de serviços", () => {
 
         // Deleção
         const deleteResponse = await request(api)
-            .delete(`/service/${tempServiceId}`);
+            .delete(`/services/service/${tempServiceId}`);  // Corrigido para usar a sintaxe correta
         expect(deleteResponse.status).to.equal(200);
         expect(deleteResponse.body.message).to.equal("Serviço deletado com sucesso");
     });

@@ -1,10 +1,9 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const db = require('../config/database');
-
 const router = express.Router();
 
-// CRUD para serviços
+
 // Criação de um novo serviço
 router.post('/service', [
     body('nome').not().isEmpty().withMessage('Nome do serviço é obrigatório'),
@@ -32,6 +31,20 @@ router.get('/services', (req, res) => {
             return res.status(500).send({ message: "Erro ao buscar serviços", error: err });
         }
         res.status(200).json(results);
+    });
+});
+
+router.get('/service/:id', (req, res) => {
+    const { id } = req.params;
+    const query = 'SELECT * FROM services WHERE id = ?';
+    db.query(query, [id], (err, result) => {
+        if (err) {
+            return res.status(500).send({ message: "Erro ao buscar serviço", error: err });
+        }
+        if (result.length === 0) {
+            return res.status(404).send({ message: "Serviço não encontrado" });
+        }
+        res.status(200).json(result[0]);
     });
 });
 
