@@ -6,6 +6,7 @@ const path = require('path');
 // Importa rotas
 const userRoutes = require('./routes/userRoutes');
 const serviceRoutes = require('./routes/serviceRoutes'); // Importar as rotas de serviços
+const appointmentRoutes = require('./routes/appointmentRoutes'); // Importar as rotas de agendamentos
 
 // Conexão com o banco de dados
 const db = require('./config/database');
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 // Usando os routers
 app.use('/users', userRoutes); // Usando o router de usuários com prefixo
 app.use('/services', serviceRoutes); // Usando o router de serviços com prefixo
+app.use('/appointments', appointmentRoutes); // Usando o router de agendamentos com prefixo
 
 // Rota para servir a página inicial
 app.get('/', (req, res) => {

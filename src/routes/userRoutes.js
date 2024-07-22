@@ -29,6 +29,7 @@ router.post('/login', async (req, res) => {
 });
 
 // Adicionar um novo usuário
+// Adicionar um novo usuário
 router.post('/user', [
     body('nome').not().isEmpty().withMessage('Nome é obrigatório'),
     body('email').isEmail().withMessage('E-mail inválido'),
@@ -51,6 +52,7 @@ router.post('/user', [
         return res.status(201).send({ message: "Usuário adicionado com sucesso", userId: result.insertId });
     });
 });
+
 
 
 // Recuperar usuario pelo email

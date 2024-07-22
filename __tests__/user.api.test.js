@@ -44,11 +44,12 @@ describe("API de usuários", () => {
     expect(response.body.users.length).to.be.above(0);
   });
 
-  it("Deve remover usuário corretamente", async () => {
-    const response = await request(api)
-      .del("/users/user/" + user_id) // Mudança aqui para refletir o prefixo usado
-      .send();
-    expect(response.status).to.equal(200);
-    expect(parseInt(response.body.userId)).to.equal(user_id);
-  });
+   it("Deve remover usuário corretamente", async () => {
+     const response = await request(api)
+       .del("/users/user/" + user_id) // Mudança aqui para refletir o prefixo usado
+       .send();
+     expect(response.status).to.equal(200);
+     expect(parseInt(response.body.userId)).to.equal(user_id);
+   });
 });
+
