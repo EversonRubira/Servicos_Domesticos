@@ -45,6 +45,8 @@ router.get('/', (req, res) => {
 router.put('/:id', [
     body('status').isIn(['agendado', 'cancelado', 'concluído']).withMessage('Status deve ser "agendado", "cancelado" ou "concluído"')
 ], (req, res) => {
+    console.log(req.body);
+    console.log(res.body);
     const { status } = req.body;
     const query = 'UPDATE Appointments SET status = ? WHERE id = ?';
     db.query(query, [status, req.params.id], (err, result) => {

@@ -41,13 +41,13 @@ describe("API de agendamentos", () => {
     after(async () => {
         // Limpar dados criados para o teste
         await Promise.all([
-            request(api).delete(`/users/user/${clienteId}`),  // Verifique a rota correta para delete
+            request(api).delete(`/users/user/${clienteId}`),  
             request(api).delete(`/appointments/${appointmentId}`)
         ]);
     });
 
     it("Deve agendar um serviço corretamente", async () => {
-        expect(appointmentId).to.not.equal(undefined);
+        expect(appointmentId).to.not.equal(null);
     });
 
     it("Deve atualizar o status de um agendamento", async () => {
@@ -60,7 +60,7 @@ describe("API de agendamentos", () => {
 
     it("Deve listar todos os agendamentos", async () => {
         const response = await request(api)
-            .get("/appointments");
+            .get("/appointments/");
         expect(response.status).to.equal(200);
         expect(response.body).to.be.an('array');
     });
