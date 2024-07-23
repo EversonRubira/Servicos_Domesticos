@@ -42,7 +42,7 @@ router.get('/', (req, res) => {
 });
 
 // Atualizar um compromisso
-router.put('/:id', [
+router.put('/appointments/:id', [
     body('status').isIn(['agendado', 'cancelado', 'concluído']).withMessage('Status deve ser "agendado", "cancelado" ou "concluído"')
 ], (req, res) => {
     console.log(req.body);
@@ -61,7 +61,7 @@ router.put('/:id', [
 });
 
 // Deletar um compromisso
-router.delete('/:id', (req, res) => {
+router.delete('/appointments/:id', (req, res) => {
     const query = 'DELETE FROM Appointments WHERE id = ?';
     db.query(query, [req.params.id], (err, result) => {
         if (err) {

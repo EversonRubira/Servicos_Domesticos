@@ -18,7 +18,7 @@ describe("API de agendamentos", () => {
             if (clienteResponse.status !== 201) throw new Error(`Erro ao criar cliente: ${clienteResponse.status}`);
             clienteId = clienteResponse.body.userId;
     
-            // Suponha que você já tem um serviço e prestador criados, e seus IDs são conhecidos
+            // Criar um agendamento temporário
             servicoId = 1; // ID do serviço existente
             prestadorId = 1; // ID do prestador existente
 
@@ -33,6 +33,7 @@ describe("API de agendamentos", () => {
             const appointmentResponse = await request(api).post("/appointments").send(appointmentData);
             if (appointmentResponse.status !== 201) throw new Error(`Erro ao criar agendamento: ${appointmentResponse.status}`);
             appointmentId = appointmentResponse.body.appointmentId;
+            console.log("Agendamento criado com sucesso, ID: ${appointmentId}");
         } catch (error) {
             console.error('Erro durante a configuração do teste:', error.message);
         }
@@ -58,6 +59,8 @@ describe("API de agendamentos", () => {
         expect(response.body.message).to.equal("Compromisso atualizado com sucesso");
     });
 
+
+    
     it("Deve listar todos os agendamentos", async () => {
         const response = await request(api)
             .get("/appointments/");
