@@ -5,7 +5,7 @@ const router = express.Router();
 
 
 // Agendar um novo compromisso
-router.post('/', [
+router.post('/appointment', [
     body('cliente_id').isInt().withMessage('ID do cliente é obrigatório e deve ser um número inteiro'),
     body('servico_id').isInt().withMessage('ID do serviço é obrigatório e deve ser um número inteiro'),
     body('prestador_id').isInt().withMessage('ID do prestador é obrigatório e deve ser um número inteiro'),
@@ -18,7 +18,7 @@ router.post('/', [
     }
 
     const { cliente_id, servico_id, prestador_id, data_hora, status } = req.body;
-    const query = 'INSERT INTO Appointments (cliente_id, servico_id, prestador_id, data_hora, status) VALUES (?, ?, ?, ?, ?)';
+    const query = 'INSERT INTO appointments (cliente_id, servico_id, prestador_id, data_hora, status) VALUES (?, ?, ?, ?, ?)';
     db.query(query, [cliente_id, servico_id, prestador_id, data_hora, status], (err, result) => {
         if (err) {
             return res.status(500).send({ message: "Erro ao agendar serviço", error: err });
@@ -32,8 +32,8 @@ module.exports = router;
 
 
 // Listar todos os compromissos
-router.get('/', (req, res) => {
-    db.query('SELECT * FROM Appointments', (err, results) => {
+router.get('/appointments', (req, res) => {
+    db.query('SELECT * FROM appointments', (err, results) => {
         if (err) {
             return res.status(500).send({ message: "Erro ao buscar compromissos", error: err });
         }
@@ -42,11 +42,11 @@ router.get('/', (req, res) => {
 });
 
 // Atualizar um compromisso
-router.put('/:id', [
+router.put('/appointment/:id', [
     body('status').isIn(['agendado', 'cancelado', 'concluído']).withMessage('Status deve ser "agendado", "cancelado" ou "concluído"')
 ], (req, res) => {
     const { status } = req.body;
-    const query = 'UPDATE Appointments SET status = ? WHERE id = ?';
+    const query = 'UPDATE appointments SET status = ? WHERE id = ?';
     db.query(query, [status, req.params.id], (err, result) => {
         if (err) {
             return res.status(500).send({ message: "Erro ao atualizar compromisso", error: err });
@@ -59,8 +59,8 @@ router.put('/:id', [
 });
 
 // Deletar um compromisso
-router.delete('/:id', (req, res) => {
-    const query = 'DELETE FROM Appointments WHERE id = ?';
+router.delete('/appointment/:id', (req, res) => {
+    const query = 'DELETE FROM appointments WHERE id = ?';
     db.query(query, [req.params.id], (err, result) => {
         if (err) {
             return res.status(500).send({ message: "Erro ao deletar compromisso", error: err });

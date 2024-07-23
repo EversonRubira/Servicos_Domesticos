@@ -82,7 +82,7 @@ router.get('/user', (req, res) => {
 
 router.delete('/user/:id', 
     async (req, res) => {
-    const query = "DELETE FROM servicos_domesticos.users WHERE id = ?";
+    const query = "DELETE FROM users WHERE id = ?";
     db.query(query, [req.params.id], function (err, result) {
       if (err) {
         return res.status(400).json({"message": "error", "error": err });
