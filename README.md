@@ -1,9 +1,12 @@
 Relatório do Projeto: Plataforma de Agendamento de Serviços Domésticos
+
 Título do Projeto:
 Plataforma de Agendamento de Serviços Domésticos
 
+
 Nome do Software:
 Agendamento Doméstico
+
 
 Apresentação do Tema
 A Plataforma de Agendamento de Serviços Domésticos foi desenvolvida com o objetivo de simplificar e agilizar a contratação e gestão de serviços voltados para o lar, como limpeza, manutenção, jardinagem, entre outros. O sistema permite que clientes possam agendar serviços com prestadores qualificados, além de visualizar e gerenciar seus compromissos e serviços de forma eficiente. Paralelamente, oferece aos prestadores de serviço a capacidade de gerenciar suas ofertas e compromissos de maneira centralizada e prática.
